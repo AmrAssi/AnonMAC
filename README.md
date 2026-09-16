@@ -1,55 +1,49 @@
-# MAC Address Changer 🛠️
+![AnonMAC — Python and Linux networking](https://raw.githubusercontent.com/AmrAssi/AmrAssi/main/assets/headers/anonmac.svg)
+# AnonMAC
 
-A simple Python script to change the MAC address of a network interface for privacy and security. You can either generate a random MAC address or input a custom one.
+A small Python learning utility for changing a Linux network interface's MAC address and reading back the result.
 
-## 🚀 Features
-- Change the MAC address of a network interface (e.g., `wlan0`, `eth0`)
-- Generate a **random MAC address** or enter a **custom** one
-- Works on **Linux** systems (requires `sudo` access)
-- Verify if the MAC address change was successful
+[Source](AnonMAC.py) · [Systems portfolio](https://github.com/AmrAssi/Amr-Assi-Portfolio)
 
-## 📦 Installation
-Clone the repository:
+## Implemented behavior
+
+1. Ask for the interface name.
+2. Generate a locally administered MAC address beginning with `02`, or accept a user-supplied address.
+3. Bring the interface down, apply the address with `ifconfig`, and bring it up.
+4. Read the current address and compare it with the requested value.
+
+```mermaid
+flowchart LR
+    Input["Interface + requested MAC"] --> Down["Interface down"]
+    Down --> Change["Apply address"]
+    Change --> Up["Interface up"]
+    Up --> Verify["Read back and compare"]
+```
+
+## Requirements and use
+
+Linux, Python 3, `ifconfig` (usually supplied by `net-tools`), and permission to administer the selected interface.
 
 ```bash
 git clone https://github.com/AmrAssi/AnonMAC.git
 cd AnonMAC
+sudo python3 AnonMAC.py
 ```
 
-## 🛠️ Usage
-Run the script with root privileges:
+Use a local console and a disposable lab interface: the script brings that interface down and can interrupt its connection.
 
-```bash
-sudo python3 mac_changer.py
-```
+## Current scope
 
-1. Enter your network interface (e.g., `wlan0`, `eth0`).
-2. Choose to generate a random MAC or enter one manually.
-3. The script will disable the interface, change the MAC address, and re-enable it.
+This is a learning script, not a network-management service. It has not been exercised on a live interface as part of this documentation update. The implementation does not validate all user input, inspect every subprocess exit code, or restore the original address automatically. Changes are not configured to persist across reboot.
 
-### Example Output:
-```bash
-Enter interface (e.g., eth0, wlan0): wlan0
-Generate a random MAC? (y/n): y
-Current MAC: 98:de:d0:13:75:af
-[+] Changing MAC address of wlan0 to 02:ab:3d:45:67:89
-New MAC: 02:ab:3d:45:67:89
-[+] MAC address changed successfully!
-```
+The script uses Python's standard library; no `pip` packages are required.
 
-## 🔍 Check Your MAC Address
-To verify your MAC manually, run:
+## What I practiced
 
-```bash
-ifconfig wlan0 | grep ether
-```
+Python functions, subprocess argument lists, reading command output, regular expressions, and the relationship between interface state and link-layer configuration.
 
-## ⚠️ Disclaimer
-This script is for educational and ethical purposes only. Changing MAC addresses may violate network policies. Use responsibly!
+[Back to my profile](https://github.com/AmrAssi)
 
-## 📜 License
-MIT License
+## License
 
----
-
-For more information, visit the (https://github.com/AmrAssi)
+MIT.
